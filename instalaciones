@@ -1,0 +1,12 @@
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore 
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
+
+# dotnet ef dbcontext scaffold "(localdb)\MSSQLLocalDB; =ApiVie;Integrated Security=True; Trust Server Certificate = True" Microsoft.EntityFrameworkCore.SqlServer -f
+
+# dotnet ef dbcontext scaffold "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ApiVie; Trust Server Certificate = True" Microsoft.EntityFrameworkCore.SqlServer -f
