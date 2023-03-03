@@ -1,0 +1,7 @@
+namespace Web_API_Bee_Haak.DTOS;
+public class CategoryCDTO
+{
+    public string Name {get;set;}
+    public string Description {get;set;}
+    public string imageURL {get;set;}
+}
