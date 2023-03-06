@@ -12,7 +12,7 @@ namespace Web_API_Bee_Haak.Controller;
 
 [ApiController]
 [Route("API_Bee_Haak/Inventory")]
-// [Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
+[Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
 public class InventoryController :ControllerBase
 {
     private readonly AplicationdbContext context;

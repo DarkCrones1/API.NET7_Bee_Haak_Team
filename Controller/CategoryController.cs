@@ -11,7 +11,7 @@ using Web_API_Bee_Haak.Entities;
 namespace Web_API_Bee_Haak.Controller;
 [ApiController]
 [Route("API_Bee_Haak/Category")]
-// [Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
+[Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
 public class CategoryController :ControllerBase
 {
     private readonly AplicationdbContext context;
@@ -22,14 +22,14 @@ public class CategoryController :ControllerBase
         this.mapper = mapper;
     }
 
-    // [AllowAnonymous]
+    [AllowAnonymous]
     [HttpGet]
     public async Task<List<CategoryDTO>> Get(){
         var category = await context.Category.ToListAsync();
         return mapper.Map<List<CategoryDTO>>(category);
     }
 
-    // [AllowAnonymous]
+    [AllowAnonymous]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<CategoryDTO>> Get(int id){
         var category = await context.Category.FirstOrDefaultAsync(category => category.Id == id);
@@ -41,7 +41,7 @@ public class CategoryController :ControllerBase
         return mapper.Map<CategoryDTO>(category);
     }
 
-    // [AllowAnonymous]
+    [AllowAnonymous]
     [HttpGet("Name")]
     public IEnumerable<CategoryDTO> Get(String Name){
         var query = context.Category.Where(CategoryDTO => CategoryDTO.Name.Contains(Name)).ToList();

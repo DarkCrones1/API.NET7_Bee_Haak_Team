@@ -14,7 +14,7 @@ namespace Web_API_Bee_Haak.Controller;
 //Inventory/{InventoryId}
 [ApiController]
 [Route("API_Bee_Haak/Product")]
-// [Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
+[Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
 public class ProductController :ControllerBase
 {
     private readonly AplicationdbContext context;
@@ -26,9 +26,8 @@ public class ProductController :ControllerBase
         this.mapper = mapper;
     }
 
-    // [AllowAnonymous]
+    [AllowAnonymous]
     [HttpGet]
-    // [FromQuery] PaginationDTO paginationDTO
     public async Task<List<ProductDTO>> Get([FromQuery] PaginationDTO paginationDTO){
         var queryable = context.Product.AsQueryable();
         await HttpContext.InsertPaginationsData(queryable);
@@ -38,7 +37,7 @@ public class ProductController :ControllerBase
     }
     
     
-    // [AllowAnonymous]
+    [AllowAnonymous]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ProductDTO>> Get(int id){
 
@@ -52,7 +51,7 @@ public class ProductController :ControllerBase
         return mapper.Map<ProductDTO>(product);
     }
 
-    // [AllowAnonymous]
+    [AllowAnonymous]
     [HttpGet("Name")]
     public async Task<IEnumerable<ProductDTO>> Get(String Name){
         var query = await context.Product.Where(ProductDTO => ProductDTO.Name.Contains(Name)).ToListAsync();
@@ -60,6 +59,7 @@ public class ProductController :ControllerBase
         return mapper.Map<IEnumerable<ProductDTO>>(query);
     }
 
+    [AllowAnonymous]
     [HttpGet("Category")]
     public async Task<IEnumerable<ProductDTO>> GetCat(String category){
         var product = await context.Product.Where(ProductDTO => ProductDTO.Category.Name.Contains(category)).Include(ProductDTO => ProductDTO.Category).Include(ProductDTO => ProductDTO.Brand).ToListAsync();

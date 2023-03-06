@@ -17,7 +17,7 @@ public class AplicationdbContext: IdentityDbContext
         modelBuilder.Entity<PaymentUser>().HasKey(PaymentUser => new {PaymentUser.DataUserId, PaymentUser.PaymentMethodId});
     }
 
-    public DbSet<User> User {get;set;}
+    // public DbSet<User> User {get;set;}
     public DbSet<Brand> Brand {get;set;}
     public DbSet<Category> Category {get;set;}
     public DbSet<DataUser> DataUser {get;set;}

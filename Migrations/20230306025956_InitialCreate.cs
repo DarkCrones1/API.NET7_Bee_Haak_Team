@@ -31,6 +31,14 @@ namespace Web_API_Bee_Haak.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CPNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddres = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BornDte = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreteOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -49,6 +57,11 @@ namespace Web_API_Bee_Haak.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -220,28 +233,22 @@ namespace Web_API_Bee_Haak.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DataUser",
+                name: "ShoppingCart",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CPNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Addres = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RFC = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    BornDte = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DataUserId = table.Column<int>(type: "int", nullable: false),
+                    DataUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreateOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DataUser", x => x.Id);
+                    table.PrimaryKey("PK_ShoppingCart", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DataUser_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_ShoppingCart_AspNetUsers_DataUserId1",
+                        column: x => x.DataUserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
@@ -293,42 +300,21 @@ namespace Web_API_Bee_Haak.Migrations
                 columns: table => new
                 {
                     PaymentMethodId = table.Column<int>(type: "int", nullable: false),
-                    DataUserId = table.Column<int>(type: "int", nullable: false)
+                    DataUserId = table.Column<int>(type: "int", nullable: false),
+                    DataUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentUser", x => new { x.DataUserId, x.PaymentMethodId });
                     table.ForeignKey(
-                        name: "FK_PaymentUser_DataUser_DataUserId",
-                        column: x => x.DataUserId,
-                        principalTable: "DataUser",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_PaymentUser_AspNetUsers_DataUserId1",
+                        column: x => x.DataUserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_PaymentUser_PaymentMethod_PaymentMethodId",
                         column: x => x.PaymentMethodId,
                         principalTable: "PaymentMethod",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ShoppingCart",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DataUserId = table.Column<int>(type: "int", nullable: false),
-                    CreateOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdateOn = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ShoppingCart", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ShoppingCart_DataUser_DataUserId",
-                        column: x => x.DataUserId,
-                        principalTable: "DataUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -392,6 +378,11 @@ namespace Web_API_Bee_Haak.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserId",
+                table: "AspNetUsers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -399,14 +390,14 @@ namespace Web_API_Bee_Haak.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DataUser_UserId1",
-                table: "DataUser",
-                column: "UserId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Order_ShoppingcartId",
                 table: "Order",
                 column: "ShoppingcartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentUser_DataUserId1",
+                table: "PaymentUser",
+                column: "DataUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentUser_PaymentMethodId",
@@ -429,9 +420,9 @@ namespace Web_API_Bee_Haak.Migrations
                 column: "InventoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoppingCart_DataUserId",
+                name: "IX_ShoppingCart_DataUserId1",
                 table: "ShoppingCart",
-                column: "DataUserId");
+                column: "DataUserId1");
         }
 
         /// <inheritdoc />
@@ -478,9 +469,6 @@ namespace Web_API_Bee_Haak.Migrations
 
             migrationBuilder.DropTable(
                 name: "Inventory");
-
-            migrationBuilder.DropTable(
-                name: "DataUser");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

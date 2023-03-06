@@ -68,8 +68,8 @@ public class StartUp
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AplicationdbContext>().AddDefaultTokenProviders();
 
             services.AddAuthorization(options => {
-                options.AddPolicy("Admin", polyce => polyce.RequireClaim("Admin"));
-                options.AddPolicy("User", polyce => polyce.RequireClaim("User"));
+                options.AddPolicy("Admin", polyce => polyce.RequireClaim("Rol", "Admin"));
+                options.AddPolicy("User", polyce => polyce.RequireClaim("Rol", "User"));
             });
 
 

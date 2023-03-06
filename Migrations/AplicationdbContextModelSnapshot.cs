@@ -281,51 +281,6 @@ namespace Web_API_Bee_Haak.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("Web_API_Bee_Haak.Entities.DataUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Addres")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("BornDte")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CPNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RFC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdateOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("DataUser");
-                });
-
             modelBuilder.Entity("Web_API_Bee_Haak.Entities.Inventory", b =>
                 {
                     b.Property<int>("Id")
@@ -396,7 +351,12 @@ namespace Web_API_Bee_Haak.Migrations
                     b.Property<int>("PaymentMethodId")
                         .HasColumnType("int");
 
+                    b.Property<string>("DataUserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("DataUserId", "PaymentMethodId");
+
+                    b.HasIndex("DataUserId1");
 
                     b.HasIndex("PaymentMethodId");
 
@@ -472,21 +432,50 @@ namespace Web_API_Bee_Haak.Migrations
                     b.Property<int>("DataUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("DataUserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("UpdateOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DataUserId");
+                    b.HasIndex("DataUserId1");
 
                     b.ToTable("ShoppingCart");
                 });
 
-            modelBuilder.Entity("Web_API_Bee_Haak.Entities.User", b =>
+            modelBuilder.Entity("Web_API_Bee_Haak.Entities.DataUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.HasDiscriminator().HasValue("User");
+                    b.Property<DateTime>("BornDte")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CPNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreteOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddres")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdateOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("UserId");
+
+                    b.HasDiscriminator().HasValue("DataUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -540,15 +529,6 @@ namespace Web_API_Bee_Haak.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Web_API_Bee_Haak.Entities.DataUser", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Web_API_Bee_Haak.Entities.Order", b =>
                 {
                     b.HasOne("Web_API_Bee_Haak.Entities.Product", "Product")
@@ -572,9 +552,7 @@ namespace Web_API_Bee_Haak.Migrations
                 {
                     b.HasOne("Web_API_Bee_Haak.Entities.DataUser", "DataUser")
                         .WithMany("PaymentClient")
-                        .HasForeignKey("DataUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DataUserId1");
 
                     b.HasOne("Web_API_Bee_Haak.Entities.PaymentMethod", "PaymentMethod")
                         .WithMany()
@@ -618,16 +596,18 @@ namespace Web_API_Bee_Haak.Migrations
                 {
                     b.HasOne("Web_API_Bee_Haak.Entities.DataUser", "DataUser")
                         .WithMany()
-                        .HasForeignKey("DataUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DataUserId1");
 
                     b.Navigation("DataUser");
                 });
 
             modelBuilder.Entity("Web_API_Bee_Haak.Entities.DataUser", b =>
                 {
-                    b.Navigation("PaymentClient");
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Web_API_Bee_Haak.Entities.Inventory", b =>
@@ -638,6 +618,11 @@ namespace Web_API_Bee_Haak.Migrations
             modelBuilder.Entity("Web_API_Bee_Haak.Entities.ShoppingCart", b =>
                 {
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Web_API_Bee_Haak.Entities.DataUser", b =>
+                {
+                    b.Navigation("PaymentClient");
                 });
 #pragma warning restore 612, 618
         }

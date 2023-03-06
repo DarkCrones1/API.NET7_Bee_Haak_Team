@@ -11,7 +11,7 @@ using Web_API_Bee_Haak.DTOS;
 namespace ApiVie.Domain.Controller;
 [ApiController]
 [Route("API_Bee_Haak/Brand")] 
-// [Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
+[Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
 public class BrandController :ControllerBase
 {
     private readonly AplicationdbContext context;
@@ -22,8 +22,8 @@ public class BrandController :ControllerBase
         this.mapper = mapper;
     }
 
-    [HttpGet(Name = "GetBrands")]
     [AllowAnonymous]
+    [HttpGet(Name = "GetBrands")]
     public async Task<ActionResult<List<BrandDTO>>> Get(){
         var brand = await context.Brand.ToListAsync();
         return mapper.Map<List<BrandDTO>>(brand);
