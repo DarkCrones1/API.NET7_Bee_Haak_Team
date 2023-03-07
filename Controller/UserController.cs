@@ -37,8 +37,8 @@ public class UserController :ControllerBase
     [HttpPost("Register")]
     public async Task<ActionResult<RequestAuthentication>> Register(UserCredencial userCredencial)
     {
-        var user = new IdentityUser{UserName = userCredencial.Email, Email = userCredencial.Email};
-        var name = new IdentityUser{UserName = userCredencial.Email};
+        var user = new IdentityUser{Email = userCredencial.Email};
+        var name = new IdentityUser{UserName = userCredencial.UserName};
         var result = await userManager.CreateAsync(user, userCredencial.PassWord);
 
         if (result.Succeeded)
