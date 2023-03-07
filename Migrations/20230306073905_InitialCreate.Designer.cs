@@ -12,7 +12,7 @@ using Web_API_Bee_Haak.Data;
 namespace Web_API_Bee_Haak.Migrations
 {
     [DbContext(typeof(AplicationdbContext))]
-    [Migration("20230306025956_InitialCreate")]
+    [Migration("20230306073905_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
