@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uv1ZBhmIHXYodzplPwmx3burHs3jt0ZPWVMiCIEAtoQghJIjhb/wuQu+6W9GQ9xVl381bXkaZ51U4bFDuOd12A==",
+  "dgSpecHash": "4JFsc8dZZ+jQInT4iCktBV2FoVCMJhc1waT8PGzE6jISXAM8rP7K0kpqm+J4bXtDn9/356L9ewup0p8d+a7Y/Q==",
   "success": true,
-  "projectFilePath": "D:\\Documentos\\UTM\\5° Cuatri\\API_Bee_Haak\\Web_API_Bee_Haak\\Web_API_Bee_Haak.csproj",
+  "projectFilePath": "D:\\Documentos\\UTM\\5° Cuatri\\Desarrollo Movil Multiplataforma\\API_KaabHaak\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ivang\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\ivang\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

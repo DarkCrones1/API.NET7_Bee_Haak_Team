@@ -82,7 +82,7 @@ public class UserController :ControllerBase
     private async Task<RequestAuthentication> BuildToken(UserCredencial userCredencial){
         var claims = new List<Claim>(){
             new Claim("email", userCredencial.Email),
-            new Claim("Rol", "User")
+            new Claim("Rol", "User"),
         };
 
         var user = await userManager.FindByEmailAsync(userCredencial.Email);
@@ -108,12 +108,14 @@ public class UserController :ControllerBase
     public async Task<ActionResult> MakeAdmin(UserCredencial userCredencial){
         var user = await userManager.FindByEmailAsync(userCredencial.Email);
         await userManager.AddClaimAsync(user, new Claim("Rol","Admin"));
+        await userManager.RemoveClaimAsync(user, new Claim("Rol","User"));
         return NoContent();
     }
 
     [HttpPost("RemoveAdmin")]
     public async Task<ActionResult> RemoveAdmin(UserCredencial userCredencial){
         var user = await userManager.FindByEmailAsync(userCredencial.Email);
+        await userManager.AddClaimAsync(user, new Claim("Rol","User"));
         await userManager.RemoveClaimAsync(user, new Claim("Rol","Admin"));
         return NoContent();
     }

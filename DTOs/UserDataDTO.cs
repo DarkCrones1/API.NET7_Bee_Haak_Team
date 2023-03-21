@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Web_API_Bee_Haak.Entities;
 using Web_API_Bee_Haak.Entities.Base;
 
@@ -8,5 +9,6 @@ public class UserDataDTO
     public string LastName {get;set;}
     public string CPNumber {get;set;}
     public string StreetAddres {get;set;}
+    public int UserId {get;set;}
     public DateTime BornDte {get;set;}
 }

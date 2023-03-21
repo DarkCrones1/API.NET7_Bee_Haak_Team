@@ -23,17 +23,26 @@ public class AutoMapperProfiles :Profile
         CreateMap<InventoryCDTO, Inventory>();
         CreateMap<Inventory, InventoryDTO>();
         CreateMap<Inventory, InventoryDTOW>().ForMember(InventoryDTO => InventoryDTO.Stock, opcions => opcions.MapFrom(MapInventoryDTOProducts));
-        
 
-        CreateMap<UserDataCDTO, DataUser>();
-        CreateMap<DataUser, UserDataDTO>();
+        //Mapeo Cart
+        CreateMap<CartCDTO, Cart>();
+        CreateMap<Cart, CartDTO>();
+        CreateMap<Cart, CartDTOW>().ForMember(CartDTO => CartDTO.Items, opcions => opcions.MapFrom(MapCartDTOCartItems));
+
+        //Mapeo CartItem
+        CreateMap<CartItemCDTO, CartItem>();
+        CreateMap<CartItem, CartItemDTO>();
+        
+        //Mapeo DataUser
+        CreateMap<UserDataCDTO, UserData>();
+        CreateMap<UserData, UserDataDTO>();
 
 
         //Mapeo PaymentMethod
         // CreateMap<PaymentMethodCDTO, PaymentMethod>();
         //CreateMap<PaymentMethod, PaymentMethodDTO>();
 
-        //Mapeo ShoppingCart
+        //Mapeo Cart
         // CreateMap<ShoppingCartCDTO, Shoppingcart>();
         //CreateMap<Shoppingcart, ShoppingCartDTO>();
 
@@ -57,7 +66,26 @@ public class AutoMapperProfiles :Profile
                 Name = Product.Name,
                 Description = Product.Description,
                 Price = Product.Price
+            });
+        }
 
+        return result;
+    }
+
+    private List<CartItemDTO> MapCartDTOCartItems(Cart cart, CartDTO cartDTO){
+        var result = new List<CartItemDTO>();
+
+        if(cart.Items == null){
+            return result;
+        }
+
+        foreach (var item in cart.Items){
+            result.Add(new CartItemDTO{
+                Id = item.Id,
+                // CartId = item.CartId,
+                // ProductId = item.ProductId,
+                Price = item.Price,
+                Quantity = item.Quantity
             });
         }
 

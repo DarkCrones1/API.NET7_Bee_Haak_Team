@@ -13,18 +13,18 @@ public class AplicationdbContext: IdentityDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder){
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Order>().HasKey(Order => new {Order.ProductId, Order.ShoppingcartId});
-        modelBuilder.Entity<PaymentUser>().HasKey(PaymentUser => new {PaymentUser.DataUserId, PaymentUser.PaymentMethodId});
+        modelBuilder.Entity<CartItem>().HasKey(CartItem => new {CartItem.ProductId, CartItem.CartId});
+        modelBuilder.Entity<PaymentUser>().HasKey(PaymentUser => new {PaymentUser.UserId, PaymentUser.PaymentMethodId});
     }
 
     // public DbSet<User> User {get;set;}
     public DbSet<Brand> Brand {get;set;}
     public DbSet<Category> Category {get;set;}
-    public DbSet<DataUser> DataUser {get;set;}
+    public DbSet<UserData> UserData {get;set;}
     public DbSet<Inventory> Inventory {get;set;}
-    public DbSet<Order> Order {get;set;}
+    public DbSet<CartItem> CartItem {get;set;}
     public DbSet<PaymentMethod> PaymentMethod {get;set;}
     public DbSet<PaymentUser> PaymentUser {get;set;}
     public DbSet<Product> Product {get;set;}
-    public DbSet<ShoppingCart> ShoppingCart {get;set;}
+    public DbSet<Cart> Cart {get;set;}
 }

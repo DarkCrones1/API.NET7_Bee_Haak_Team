@@ -4186,11 +4186,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documentos\\UTM\\5° Cuatri\\API_Bee_Haak\\Web_API_Bee_Haak\\Web_API_Bee_Haak.csproj",
+      "projectUniqueName": "D:\\Documentos\\UTM\\5° Cuatri\\Desarrollo Movil Multiplataforma\\API_KaabHaak\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj",
       "projectName": "Web_API_Bee_Haak",
-      "projectPath": "D:\\Documentos\\UTM\\5° Cuatri\\API_Bee_Haak\\Web_API_Bee_Haak\\Web_API_Bee_Haak.csproj",
+      "projectPath": "D:\\Documentos\\UTM\\5° Cuatri\\Desarrollo Movil Multiplataforma\\API_KaabHaak\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj",
       "packagesPath": "C:\\Users\\ivang\\.nuget\\packages\\",
-      "outputPath": "D:\\Documentos\\UTM\\5° Cuatri\\API_Bee_Haak\\Web_API_Bee_Haak\\obj\\",
+      "outputPath": "D:\\Documentos\\UTM\\5° Cuatri\\Desarrollo Movil Multiplataforma\\API_KaabHaak\\WebApi_Kaab_Haak\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ivang\\AppData\\Roaming\\NuGet\\NuGet.Config"
