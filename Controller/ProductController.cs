@@ -54,7 +54,7 @@ public class ProductController :ControllerBase
     [AllowAnonymous]
     [HttpGet("Name")]
     public async Task<IEnumerable<ProductDTO>> Get(String Name){
-        var query = await context.Product.Where(ProductDTO => ProductDTO.Name.Contains(Name)).ToListAsync();
+        var query = await context.Product.Where(ProductDTO => ProductDTO.Name.Contains(Name)).Include(ProductDTO => ProductDTO.Category).Include(ProductDTO => ProductDTO.Brand).ToListAsync();
 
         return mapper.Map<IEnumerable<ProductDTO>>(query);
     }
