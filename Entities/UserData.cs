@@ -8,9 +8,9 @@ public class UserData: BaseEntity
     public string LastName {get;set;}
     public string CPNumber {get;set;}
     public string StreetAddres {get;set;}
-    public int UserId {get;set;}
+    public string UserId {get;set;}
     public DateTime BornDate {get;set;}
-    public IdentityUser identityUser {get;set;}
+    public IdentityUser User {get;set;}
     public List<PaymentUser> PaymentClient {get;set;}
     public Cart Cart {get;set;}
 }
