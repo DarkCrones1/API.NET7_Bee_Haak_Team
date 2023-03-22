@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web_API_Bee_Haak.Entities;
-using Web_API_Bee_Haak.Entities.Base;
-using Web_API_Bee_Haak.Data;
+using Web_API_Kaab_Haak.Entities;
+using Web_API_Kaab_Haak.Entities.Base;
+using Web_API_Kaab_Haak.Data;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Web_API_Bee_Haak.DTOS;
+using Web_API_Kaab_Haak.DTOS;
 
-namespace ApiVie.Domain.Controller;
+namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
-[Route("API_Bee_Haak/Brand")] 
+[Route("WebAPI_Kaab_Haak/Brand")] 
 [Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
 public class BrandController :ControllerBase
 {

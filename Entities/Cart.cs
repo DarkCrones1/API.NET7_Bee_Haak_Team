@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
-using Web_API_Bee_Haak.Entities.Base;
+using Web_API_Kaab_Haak.Entities.Base;
 
-namespace Web_API_Bee_Haak.Entities;
+namespace Web_API_Kaab_Haak.Entities;
 public class Cart: BaseEntity
 {
     public int UsuarioId {get;set;}

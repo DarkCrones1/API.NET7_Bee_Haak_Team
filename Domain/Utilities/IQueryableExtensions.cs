@@ -1,6 +1,6 @@
 using System.Linq;
-using Web_API_Bee_Haak.DTOS;
-namespace Web_API_Bee_Haak.Domain.Utilities;
+using Web_API_Kaab_Haak.DTOS;
+namespace Web_API_Kaab_Haak.Domain.Utilities;
 public static class IQueryableExtensions
 {
     public static IQueryable<T> Page<T> (this IQueryable<T> queryable, PaginationDTO paginationDTO)

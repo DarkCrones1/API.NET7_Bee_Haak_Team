@@ -1,4 +1,4 @@
-namespace Web_API_Bee_Haak.Entities.Base;
+namespace Web_API_Kaab_Haak.Entities.Base;
 
 public class BaseEntity
 {

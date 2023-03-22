@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Web_API_Bee_Haak.Entities;
+namespace Web_API_Kaab_Haak.Entities;
 public class PaymentUser
 {
     public int PaymentMethodId {get;set;}

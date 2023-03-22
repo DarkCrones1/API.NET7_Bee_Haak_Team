@@ -1,8 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
-using Web_API_Bee_Haak.DTOS;
+using Web_API_Kaab_Haak.DTOS;
 
-namespace Web_API_Bee_Haak.Utilities;
+namespace Web_API_Kaab_Haak.Utilities;
 public static class HttpContextExtensions
 {
     public async static Task InsertPaginationsData<T>(this HttpContext httpContext, IQueryable<T> queryable)

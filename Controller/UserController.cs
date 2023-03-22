@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Web_API_Bee_Haak.Entities;
-using Web_API_Bee_Haak.Controller.Base;
-using Web_API_Bee_Haak.Data;
-using Web_API_Bee_Haak.DTOS;
+using Web_API_Kaab_Haak.Entities;
+using Web_API_Kaab_Haak.Controller.Base;
+using Web_API_Kaab_Haak.Data;
+using Web_API_Kaab_Haak.DTOS;
 using AutoMapper;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,9 +13,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Net;
 
-namespace Web_API_Bee_Haak.Controller;
+namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
-[Route("API_Bee_Haak/Account")]
+[Route("WebAPI_Kaab_Haak/Account")]
 // [Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
 public class UserController :ControllerBase
 {
@@ -81,7 +81,7 @@ public class UserController :ControllerBase
     private async Task<RequestAuthentication> BuildToken(UserCredencial userCredencial){
         var claims = new List<Claim>(){
             new Claim("email", userCredencial.Email),
-            new Claim("Rol", "User"),
+            new Claim("Rol","User"),
         };
 
         var user = await userManager.FindByEmailAsync(userCredencial.Email);
@@ -107,18 +107,17 @@ public class UserController :ControllerBase
     public async Task<ActionResult> MakeAdmin(UserCredencial userCredencial){
         var user = await userManager.FindByEmailAsync(userCredencial.Email);
         await userManager.AddClaimAsync(user, new Claim("Rol","Admin"));
-        await userManager.RemoveClaimAsync(user, new Claim("Rol","User"));
         return NoContent();
     }
 
     [HttpPost("RemoveAdmin")]
     public async Task<ActionResult> RemoveAdmin(UserCredencial userCredencial){
         var user = await userManager.FindByEmailAsync(userCredencial.Email);
-        await userManager.AddClaimAsync(user, new Claim("Rol","User"));
         await userManager.RemoveClaimAsync(user, new Claim("Rol","Admin"));
         return NoContent();
     }
 
+    
 
     // [HttpPost("MakeWorker")]
     // public async Task<ActionResult> MakeWorker(EmployeeCredencial employeeCredencial){

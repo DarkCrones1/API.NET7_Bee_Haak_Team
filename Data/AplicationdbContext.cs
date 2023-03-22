@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Web_API_Bee_Haak.Entities;
+using Web_API_Kaab_Haak.Entities;
 
-namespace Web_API_Bee_Haak.Data;
+namespace Web_API_Kaab_Haak.Data;
 public class AplicationdbContext: IdentityDbContext
 {
     public AplicationdbContext(DbContextOptions options) : base(options)

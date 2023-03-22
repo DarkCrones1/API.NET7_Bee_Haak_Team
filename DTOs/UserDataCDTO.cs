@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using Web_API_Bee_Haak.Entities;
-using Web_API_Bee_Haak.Entities.Base;
+using Web_API_Kaab_Haak.Entities;
+using Web_API_Kaab_Haak.Entities.Base;
 
-namespace Web_API_Bee_Haak.DTOS;
+namespace Web_API_Kaab_Haak.DTOS;
 public class UserDataCDTO
 {
     public string FirstName {get;set;}

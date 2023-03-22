@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web_API_Bee_Haak.Entities.Base;
-using Web_API_Bee_Haak.Data;
+using Web_API_Kaab_Haak.Entities.Base;
+using Web_API_Kaab_Haak.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace Web_API_Bee_Haak.Controller.Base;
-
+namespace Web_API_Kaab_Haak.Controller.Base;
 [Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
 public abstract class ApiControllerBase<T> :ControllerBase where T: BaseEntity
 {

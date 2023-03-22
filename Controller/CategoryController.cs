@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web_API_Bee_Haak.Controller.Base;
-using Web_API_Bee_Haak.Data;
-using Web_API_Bee_Haak.DTOS;
+using Web_API_Kaab_Haak.Controller.Base;
+using Web_API_Kaab_Haak.Data;
+using Web_API_Kaab_Haak.DTOS;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Web_API_Bee_Haak.Entities;
+using Web_API_Kaab_Haak.Entities;
 
-namespace Web_API_Bee_Haak.Controller;
+namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
-[Route("API_Bee_Haak/Category")]
+[Route("WebAPI_Kaab_Haak/Category")]
 [Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
 public class CategoryController :ControllerBase
 {

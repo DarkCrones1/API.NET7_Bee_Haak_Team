@@ -1,6 +1,6 @@
 using AutoMapper;
-using Web_API_Bee_Haak.Entities;
-using Web_API_Bee_Haak.DTOS;
+using Web_API_Kaab_Haak.Entities;
+using Web_API_Kaab_Haak.DTOS;
 
 namespace ApiVie.Domain.Utilities;
 public class AutoMapperProfiles :Profile

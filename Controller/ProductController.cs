@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web_API_Bee_Haak.Entities;
-using Web_API_Bee_Haak.Data;
-using Web_API_Bee_Haak.DTOS;
+using Web_API_Kaab_Haak.Entities;
+using Web_API_Kaab_Haak.Data;
+using Web_API_Kaab_Haak.DTOS;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
-using Web_API_Bee_Haak.Utilities;
-using Web_API_Bee_Haak.Domain.Utilities;
+using Web_API_Kaab_Haak.Utilities;
+using Web_API_Kaab_Haak.Domain.Utilities;
 
-namespace Web_API_Bee_Haak.Controller;
+namespace Web_API_Kaab_Haak.Controller;
 //Inventory/{InventoryId}
 [ApiController]
-[Route("API_Bee_Haak/Product")]
+[Route("WebAPI_Kaab_Haak/Product")]
 [Authorize(AuthenticationSchemes =  JwtBearerDefaults.AuthenticationScheme,Policy = "Admin")]
 public class ProductController :ControllerBase
 {

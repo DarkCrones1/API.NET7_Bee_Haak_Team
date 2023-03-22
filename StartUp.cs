@@ -6,10 +6,9 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
-using Web_API_Bee_Haak.Data;
+using Web_API_Kaab_Haak.Data;
 
-namespace Web_API_Bee_Haak;
-
+namespace Web_API_Kaab_Haak;
 public class StartUp
     {
         public StartUp(IConfiguration configuration)
@@ -40,7 +39,7 @@ public class StartUp
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c => 
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "API_Kaab_Haak", Version ="v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "WebAPI_Kaab_Haak", Version ="v1"});
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme{
                     Name = "Authorization",

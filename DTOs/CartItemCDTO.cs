@@ -1,4 +1,4 @@
-namespace Web_API_Bee_Haak.DTOS;
+namespace Web_API_Kaab_Haak.DTOS;
 public class CartItemCDTO
 {
     public int Price {get;set;}

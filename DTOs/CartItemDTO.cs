@@ -1,5 +1,5 @@
 
-namespace Web_API_Bee_Haak.DTOS;
+namespace Web_API_Kaab_Haak.DTOS;
 public class CartItemDTO
 {
     public int Id {get;set;}
