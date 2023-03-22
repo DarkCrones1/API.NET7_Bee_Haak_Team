@@ -24,22 +24,25 @@ public class UserDataController: ControllerBase{
         this.userManager = userManager;
     }
 
+    // [HttpGet]
+    // public async Task<ActionResult<UserDataDTO>> Get(){
+    //     var user = await context.UserData.ToListAsync();
+
+    //     return mapper.Map<UserDataDTO>(user);
+    // }
+
     [HttpGet]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<ActionResult<UserDataDTO>> Get(){
-        var user = await context.UserData.ToListAsync();
 
-        return mapper.Map<UserDataDTO>(user);
-    }
+        var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
+        var email = emailClaim.Value;
+        var user = await userManager.FindByEmailAsync(email);
+        var userId = user.Id;
 
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<UserDataDTO>> Get(int id){
-        var user = await context.UserData.FirstOrDefaultAsync(user => user.Id == id);
+        var Data = await context.UserData.FirstOrDefaultAsync(UserData => UserData.UserId == userId);
 
-        if (user == null){
-            return NotFound();
-        }
-
-        return mapper.Map<UserDataDTO>(user);
+        return mapper.Map<UserDataDTO>(Data);
     }
 
     [HttpPost]
@@ -63,10 +66,10 @@ public class UserDataController: ControllerBase{
         
         userData.CreateOn = DateTime.Now;
         userData.UpdateOn = DateTime.Now;
-        // userData.UserId = userId;
+        userData.UserId = userId;
         context.Add(userData);
         await context.SaveChangesAsync();
-        return Ok("Data User Added");
+        return Ok("User Info Added");
     }
 
     [HttpPut("{id:int}")]

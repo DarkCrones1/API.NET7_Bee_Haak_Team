@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Web_API_Bee_Haak.Entities;
 using Web_API_Bee_Haak.Entities.Base;
 
@@ -9,5 +10,6 @@ public class UserDataCDTO
     public string CPNumber {get;set;}
     public string StreetAddres {get;set;}
     // public int UserId {get;set;}
-    public DateTime BornDte {get;set;}
+    [DataType(DataType.DateTime)]
+    public DateTime BornDate {get;set;}
 }

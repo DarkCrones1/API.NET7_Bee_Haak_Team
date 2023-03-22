@@ -40,7 +40,7 @@ public class StartUp
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c => 
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "API_Bee_Haak", Version ="v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "API_Kaab_Haak", Version ="v1"});
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme{
                     Name = "Authorization",
