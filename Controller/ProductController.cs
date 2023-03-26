@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
 using Web_API_Kaab_Haak.Utilities;
 using Web_API_Kaab_Haak.Domain.Utilities;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Web_API_Kaab_Haak.Controller;
 //Inventory/{InventoryId}
@@ -70,6 +71,7 @@ public class ProductController :ControllerBase
     [HttpPost]
     public async Task<ActionResult<Product>> Post([FromBody] ProductCDTO productCDTO){
         var exist = await context.Product.AnyAsync(Product => Product.Name == productCDTO.Name);
+        
         if (exist)
         {
             return BadRequest("Product Exist");
@@ -85,8 +87,6 @@ public class ProductController :ControllerBase
         return Ok("Product Created");
     }
 
-    
-    
     [HttpPut("{id:int}")]
     public async Task<ActionResult<Product>> Put(int id, [FromBody] ProductCDTO productCDTO){
         var exist = await context.Product.AnyAsync(product => product.Id == id);
@@ -105,6 +105,31 @@ public class ProductController :ControllerBase
         return Ok("Product Updated");
     }
 
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult> Patch(int id, JsonPatchDocument<ProductPatchDTO> patchDocument){
+        if(patchDocument == null){
+            return BadRequest();
+        }
+
+        var ProductDB = await context.Product.FirstOrDefaultAsync(x => x.Id == id);
+        if(ProductDB == null){
+            return NotFound("Product not found");
+        }
+
+        var ProductDTO = mapper.Map<ProductPatchDTO>(ProductDB);
+
+        patchDocument.ApplyTo(ProductDTO, ModelState);
+
+        var isvalid = TryValidateModel(ProductDTO);
+        if (!isvalid){
+            return BadRequest(ModelState);
+        }
+
+        mapper.Map(ProductDTO, ProductDB);
+
+        await context.SaveChangesAsync();
+        return NoContent();
+    }
 
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<Product>> Delete(int id){

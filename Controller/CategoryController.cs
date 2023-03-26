@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Web_API_Kaab_Haak.Entities;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
@@ -84,19 +85,29 @@ public class CategoryController :ControllerBase
     }
 
     [HttpPatch("{id:int}")]
-    public async Task<ActionResult<Category>> PathById(int id, [FromBody] CategoryCDTO categoryCDTO){
-        var exist = await context.Category.AnyAsync(category => category.Id == id);
-        if (!exist)
-        {
-            return BadRequest("Category doesn't exist");
+    public async Task<ActionResult> Patch(int id, JsonPatchDocument<CategoryPatchDTO> patchDocument){
+        if(patchDocument == null){
+            return BadRequest();
         }
 
-        var category = mapper.Map<Category>(categoryCDTO);
-        category.Id = id;
-        category.UpdateOn = DateTime.Now;
-        context.Update(category);
+        var CategoryDB = await context.Category.FirstOrDefaultAsync(x => x.Id == id);
+        if(CategoryDB == null){
+            return NotFound("Category not found");
+        }
+
+        var CategoryDTO = mapper.Map<CategoryPatchDTO>(CategoryDB);
+
+        patchDocument.ApplyTo(CategoryDTO, ModelState);
+
+        var isvalid = TryValidateModel(CategoryDTO);
+        if (!isvalid){
+            return BadRequest(ModelState);
+        }
+
+        mapper.Map(CategoryDTO, CategoryDB);
+
         await context.SaveChangesAsync();
-        return Ok("Section Path");
+        return NoContent();
     }
 
     [HttpDelete("{id:int}")]

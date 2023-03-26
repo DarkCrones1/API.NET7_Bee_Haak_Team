@@ -1,5 +1,5 @@
 namespace Web_API_Kaab_Haak.DTOS;
-public class ProductCDTO
+public class ProductPatchDTO
 {
     public string Name {get;set;}
     public string Description {get;set;}

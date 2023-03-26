@@ -117,8 +117,6 @@ public class UserController :ControllerBase
         return NoContent();
     }
 
-    
-
     // [HttpPost("MakeWorker")]
     // public async Task<ActionResult> MakeWorker(EmployeeCredencial employeeCredencial){
     //     var user = await userManager.FindByEmailAsync(employeeCredencial.Email);

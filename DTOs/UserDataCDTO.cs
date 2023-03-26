@@ -9,7 +9,6 @@ public class UserDataCDTO
     public string LastName {get;set;}
     public string CPNumber {get;set;}
     public string StreetAddres {get;set;}
-    // public int UserId {get;set;}
     [DataType(DataType.DateTime)]
     public DateTime BornDate {get;set;}
 }

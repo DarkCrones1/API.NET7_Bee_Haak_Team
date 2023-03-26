@@ -5,6 +5,7 @@ dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore 
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson
 
 
 # dotnet ef dbcontext scaffold "(localdb)\MSSQLLocalDB; =ApiVie;Integrated Security=True; Trust Server Certificate = True" Microsoft.EntityFrameworkCore.SqlServer -f

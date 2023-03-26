@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Web_API_Kaab_Haak.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
 
-namespace Web_API_Bee_Haak.Controller;
+namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
 [Route("WebAPI_Kaab_Haak/UserData")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class UserDataController: ControllerBase{
     
     private readonly AplicationdbContext context;
@@ -24,15 +26,8 @@ public class UserDataController: ControllerBase{
         this.userManager = userManager;
     }
 
-    // [HttpGet]
-    // public async Task<ActionResult<UserDataDTO>> Get(){
-    //     var user = await context.UserData.ToListAsync();
-
-    //     return mapper.Map<UserDataDTO>(user);
-    // }
-
     [HttpGet]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<ActionResult<UserDataDTO>> Get(){
 
         var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
@@ -46,7 +41,7 @@ public class UserDataController: ControllerBase{
     }
 
     [HttpPost]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<ActionResult<UserDataCDTO>> Post([FromBody] UserDataCDTO userDataCDTO){
 
         var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
@@ -87,6 +82,37 @@ public class UserDataController: ControllerBase{
         context.Update(user);
         await context.SaveChangesAsync();
         return Ok("User Update");
+    }
+
+    [HttpPatch]
+    public async Task<ActionResult> Patch( JsonPatchDocument<UserDataPatchDTO> patchDocument){
+        if(patchDocument == null){
+            return BadRequest();
+        }
+
+        var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
+        var email = emailClaim.Value;
+        var user = await userManager.FindByEmailAsync(email);
+        var userId = user.Id;
+
+        var UserDataDB = await context.UserData.FirstOrDefaultAsync(x => x.UserId == userId);
+        if (UserDataDB == null){
+            return NotFound("User not found");
+        }
+
+        var UserDataDTO = mapper.Map<UserDataPatchDTO>(UserDataDB);
+
+        patchDocument.ApplyTo(UserDataDTO, ModelState);
+
+        var isvalid = TryValidateModel(UserDataDTO);
+        if (!isvalid){
+            return BadRequest(ModelState);
+        }
+
+        mapper.Map(UserDataDTO, UserDataDB);
+
+        await context.SaveChangesAsync();
+        return NoContent();
     }
 
     [HttpDelete("{id:int}")]

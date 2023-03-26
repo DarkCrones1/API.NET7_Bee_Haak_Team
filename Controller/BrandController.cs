@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Web_API_Kaab_Haak.DTOS;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
@@ -81,6 +82,32 @@ public class BrandController :ControllerBase
         context.Update(brand);
         await context.SaveChangesAsync();
         return Ok("Brand Updated");
+    }
+
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult> Patch(int id, JsonPatchDocument<BrandPatchDTO> patchDocument){
+        if(patchDocument == null){
+            return BadRequest();
+        }
+
+        var BrandDB = await context.Brand.FirstOrDefaultAsync(x => x.Id == id);
+        if (BrandDB == null){
+            return NotFound("Brand not found");
+        }
+
+        var BrandDTO = mapper.Map<BrandPatchDTO>(BrandDB);
+
+        patchDocument.ApplyTo(BrandDTO, ModelState);
+
+        var isvalid = TryValidateModel(BrandDTO);
+        if (!isvalid){
+            return BadRequest(ModelState);
+        }
+
+        mapper.Map(BrandDTO, BrandDB);
+
+        await context.SaveChangesAsync();
+        return NoContent();
     }
 
     [HttpDelete("{id:int}", Name = "DeleteBrand")]

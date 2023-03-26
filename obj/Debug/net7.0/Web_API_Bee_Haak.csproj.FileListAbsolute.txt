@@ -168,3 +168,7 @@ D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebAp
 D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\obj\Debug\net7.0\Web_API_Bee_Haak.pdb
 D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\obj\Debug\net7.0\Web_API_Bee_Haak.genruntimeconfig.cache
 D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\obj\Debug\net7.0\ref\Web_API_Bee_Haak.dll
+D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\Newtonsoft.Json.dll
+D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
