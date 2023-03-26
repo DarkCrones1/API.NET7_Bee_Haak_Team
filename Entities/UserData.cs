@@ -9,6 +9,7 @@ public class UserData: BaseEntity
     public string LastName {get;set;}
     public string CPNumber {get;set;}
     public string StreetAddres {get;set;}
+    public string Image {get;set;}
     public string UserId {get;set;}
     [DataType(DataType.DateTime)]
     public DateTime BornDate {get;set;}
