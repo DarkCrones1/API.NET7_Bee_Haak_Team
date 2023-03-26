@@ -41,6 +41,10 @@ public class AutoMapperProfiles :Profile
         CreateMap<UserData, UserDataDTO>();
         CreateMap<UserDataPatchDTO, UserData>().ReverseMap();
 
+        //Mapeo Order
+        CreateMap<OrderCDTO, Order>();
+        CreateMap<Order, OrderDTO>();
+
 
         //Mapeo PaymentMethod
         // CreateMap<PaymentMethodCDTO, PaymentMethod>();
