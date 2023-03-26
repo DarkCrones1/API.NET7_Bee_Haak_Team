@@ -30,11 +30,20 @@ public class CartItemController: ControllerBase{
     public async Task<ActionResult<CartItem>> Post([FromBody] CartItemCDTO cartItemCDTO){
         var exist = await context.CartItem.AnyAsync(CartItem => CartItem.ProductId == cartItemCDTO.ProductId);
 
+        var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
+        var email = emailClaim.Value;
+        var user = await userManager.FindByEmailAsync(email);
+        var userId = user.Id;
+
         if (exist)
         {
             var cartItem = await context.CartItem.FirstOrDefaultAsync(cartItem => cartItem.ProductId == cartItemCDTO.ProductId);
 
             var product = await context.Product.FirstOrDefaultAsync(product => product.Id == cartItemCDTO.ProductId);
+
+            var cart = await context.Cart.FirstOrDefaultAsync(cart => cart.UserId == userId);
+
+            cartItem.CartId = cart.Id;
 
             cartItem.UpdateOn = DateTime.Now;
 
@@ -48,6 +57,13 @@ public class CartItemController: ControllerBase{
             return Ok("pieces added");
         }else{
             var cartItem = mapper.Map<CartItem>(cartItemCDTO);
+
+            var cart = await context.Cart.FirstOrDefaultAsync(cart => cart.UserId == userId);
+            var product = await context.Product.FirstOrDefaultAsync(product => product.Id == cartItemCDTO.ProductId);
+
+
+            cartItem.Price = product.Price;
+            cartItem.CartId = cart.Id;
 
             cartItem.CreateOn = DateTime.Now;
             cartItem.UpdateOn = DateTime.Now;

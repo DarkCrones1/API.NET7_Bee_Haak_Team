@@ -40,10 +40,20 @@ public class CartController: ControllerBase{
         var user = await userManager.FindByEmailAsync(email);
         var userId = user.Id;
 
-        var Cart = await context.CartItem.Include(CartDTO => CartDTO.Cart).Include(CartDTO => CartDTO.Product).Where(CartItemDTO => CartItemDTO.CartId == id).ToListAsync();
+        var CartItem = await context.CartItem.Include(CartItem => CartItem.Cart).Include(CartItem => CartItem.Product.Brand).Include(CartItem => CartItem.Product.Category).Include(CartItem => CartItem.Cart).Where(CartItemDTO => CartItemDTO.CartId == id).ToListAsync();
 
-        return mapper.Map<List<CartItemDTO>>(Cart);
+        return mapper.Map<List<CartItemDTO>>(CartItem);
     }
+
+    // [HttpGet("FinalCart")]
+    // public async Task<ActionResult<CartDTOW>> Get(){
+    //     var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
+    //     var email = emailClaim.Value;
+    //     var user = await userManager.FindByEmailAsync(email);
+    //     var userId = user.Id;
+
+    //     var finalCart = 
+    // }
 
     [HttpPost]
     public async Task<ActionResult<Cart>> Post([FromBody]CartCDTO cartCDTO){
