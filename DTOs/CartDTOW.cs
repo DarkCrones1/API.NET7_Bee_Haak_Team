@@ -1,3 +1,5 @@
+using Web_API_Kaab_Haak.Entities;
+
 namespace Web_API_Kaab_Haak.DTOS;
 public class CartDTOW :CartDTO
 {

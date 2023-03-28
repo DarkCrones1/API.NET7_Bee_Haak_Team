@@ -7,8 +7,7 @@ public class UserDataCDTO
 {
     public string FirstName {get;set;}
     public string LastName {get;set;}
-    public string CPNumber {get;set;}
-    public string StreetAddres {get;set;}
+    public string CellPhoneNumber {get;set;}
     public IFormFile Image {get;set;}
     [DataType(DataType.DateTime)]
     public DateTime BornDate {get;set;}

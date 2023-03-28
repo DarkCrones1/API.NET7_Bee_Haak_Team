@@ -14,18 +14,19 @@ public class AplicationdbContext: IdentityDbContext
         base.OnModelCreating(modelBuilder);
 
         // modelBuilder.Entity<CartItem>().HasKey(CartItem => new {CartItem.ProductId, CartItem.CartId});
-        modelBuilder.Entity<PaymentUser>().HasKey(PaymentUser => new {PaymentUser.UserId, PaymentUser.PaymentMethodId});
+        // modelBuilder.Entity<PaymentUser>().HasKey(PaymentUser => new {PaymentUser.UserId, PaymentUser.PaymentMethodId});
     }
 
     // public DbSet<User> User {get;set;}
     public DbSet<Brand> Brand {get;set;}
     public DbSet<Category> Category {get;set;}
     public DbSet<UserData> UserData {get;set;}
+    public DbSet<UserAddress> UserAddress {get;set;}
     public DbSet<Inventory> Inventory {get;set;}
     public DbSet<CartItem> CartItem {get;set;}
     public DbSet<Order> Order {get;set;}
     public DbSet<PaymentMethod> PaymentMethod {get;set;}
-    public DbSet<PaymentUser> PaymentUser {get;set;}
+    public DbSet<UserPaymentMethod> UserPayment {get;set;}
     public DbSet<Product> Product {get;set;}
     public DbSet<Cart> Cart {get;set;}
 }

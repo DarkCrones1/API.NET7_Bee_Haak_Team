@@ -41,18 +41,18 @@ public class AutoMapperProfiles :Profile
         CreateMap<UserData, UserDataDTO>();
         CreateMap<UserDataPatchDTO, UserData>().ReverseMap();
 
+        //Mapeo DataAddress
+        CreateMap<UserAddressCDTO, UserAddress>();
+        CreateMap<UserAddress, UserAddressDTO>();
+        CreateMap<UserAddressPatchDTO, UserAddress>().ReverseMap();
+
         //Mapeo Order
         CreateMap<OrderCDTO, Order>();
         CreateMap<Order, OrderDTO>();
 
-
         //Mapeo PaymentMethod
         // CreateMap<PaymentMethodCDTO, PaymentMethod>();
         //CreateMap<PaymentMethod, PaymentMethodDTO>();
-
-        //Mapeo Cart
-        // CreateMap<ShoppingCartCDTO, Shoppingcart>();
-        //CreateMap<Shoppingcart, ShoppingCartDTO>();
 
         //Mapeo Sucursal
         // CreateMap<SucursalCDTO, Sucursal>();
@@ -91,7 +91,8 @@ public class AutoMapperProfiles :Profile
             result.Add(new CartItemDTO{
                 Id = item.Id,
                 Price = item.Price,
-                Quantity = item.Quantity
+                Quantity = item.Quantity,
+                
             });
         }
 

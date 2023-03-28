@@ -6,5 +6,6 @@ public class CartItemDTO
     public int Price {get;set;}
     public int Quantity {get;set;}
     // public CartDTO CartDTO {get;set;}
+    // public int ProductId {get;set;}
     public ProductDTO Product {get;set;}
 }

@@ -27,10 +27,31 @@ public class CartController: ControllerBase{
         this.userManager = userManager;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<List<CartDTO>>> Get(){
-        var Cart = await context.Cart.ToListAsync();
-        return mapper.Map<List<CartDTO>>(Cart);
+    // [HttpGet]
+    // public async Task<ActionResult<List<CartDTO>>> Get(){
+    //     var Cart = await context.Cart.ToListAsync();
+    //     return mapper.Map<List<CartDTO>>(Cart);
+    // }
+
+    [HttpGet()]
+    public async Task<ActionResult<CartDTOW>> Get(){
+        var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
+        var email = emailClaim.Value;
+        var user = await userManager.FindByEmailAsync(email);
+        var userId = user.Id;
+
+        var Cart = await context.Cart.Include(cart => cart.Items).ThenInclude(CartDTO => CartDTO.Product.Brand).
+        Include(cart => cart.Items).ThenInclude(CartDTO => CartDTO.Product.Category).
+        FirstOrDefaultAsync(Cart => Cart.UserId == userId);
+
+        if (Cart == null){
+            return NotFound("Cart doesn't exist");
+        }
+
+
+        var CartDTOW = mapper.Map<CartDTOW>(Cart);
+        CartDTOW.Items = mapper.Map<List<CartItemDTO>>(Cart.Items);
+        return CartDTOW;
     }
 
     [HttpGet("{id:int}")]
@@ -44,16 +65,6 @@ public class CartController: ControllerBase{
 
         return mapper.Map<List<CartItemDTO>>(CartItem);
     }
-
-    // [HttpGet("FinalCart")]
-    // public async Task<ActionResult<CartDTOW>> Get(){
-    //     var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
-    //     var email = emailClaim.Value;
-    //     var user = await userManager.FindByEmailAsync(email);
-    //     var userId = user.Id;
-
-    //     var finalCart = 
-    // }
 
     [HttpPost]
     public async Task<ActionResult<Cart>> Post([FromBody]CartCDTO cartCDTO){

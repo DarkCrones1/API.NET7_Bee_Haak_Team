@@ -12,63 +12,60 @@ using Microsoft.AspNetCore.JsonPatch;
 
 namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
-[Route("WebAPI_Kaab_Haak/UserData")]
+[Route("WebAPI_Kaab_Haak/UserAddress")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class UserDataController: ControllerBase{
-    
+public class UserAddressController: ControllerBase{
+
     private readonly AplicationdbContext context;
     private readonly IMapper mapper;
     private readonly UserManager<IdentityUser> userManager;
 
-    public UserDataController(AplicationdbContext context, IMapper mapper, UserManager<IdentityUser> userManager){
+    public UserAddressController(AplicationdbContext context, IMapper mapper, UserManager<IdentityUser> userManager){
         this.context = context;
         this.mapper = mapper;
         this.userManager = userManager;
     }
 
     [HttpGet]
-    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<ActionResult<UserDataDTO>> Get(){
+    public async Task<ActionResult<UserAddressDTO>> Get(){
 
         var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
         var email = emailClaim.Value;
         var user = await userManager.FindByEmailAsync(email);
         var userId = user.Id;
 
-        var Data = await context.UserData.FirstOrDefaultAsync(UserData => UserData.UserId == userId);
+        var Address = await context.UserAddress.FirstOrDefaultAsync(UserAddress => UserAddress.UserId == userId);
 
-        return mapper.Map<UserDataDTO>(Data);
+        return mapper.Map<UserAddressDTO>(Address);
     }
 
     [HttpPost]
-    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<ActionResult<UserDataCDTO>> Post([FromBody] UserDataCDTO userDataCDTO){
+    public async Task<ActionResult<UserAddressCDTO>> Post([FromBody] UserAddressCDTO userAddressCDTO){
 
         var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
         var email = emailClaim.Value;
         var user = await userManager.FindByEmailAsync(email);
         var userId = user.Id;
 
-        var exist = await context.UserData.AnyAsync(UserData => UserData.UserId == userId);
+        var exist = await context.UserAddress.AnyAsync(UserAddress => UserAddress.UserId == userId);
 
         if (exist)
         {
-            return BadRequest("This User Data already exist");
+            return BadRequest("This User Address already exist");
         }
 
-        var userData = mapper.Map<UserData>(userDataCDTO);
+        var UserAddress = mapper.Map<UserAddress>(userAddressCDTO);
 
-        
-        userData.CreateOn = DateTime.Now;
-        userData.UpdateOn = DateTime.Now;
-        userData.UserId = userId;
-        context.Add(userData);
+        UserAddress.CreateOn = DateTime.Now;
+        UserAddress.UpdateOn = DateTime.Now;
+        UserAddress.UserId = userId;
+        context.Add(UserAddress);
         await context.SaveChangesAsync();
-        return Ok("User Data Added");
+        return Ok("USer Address Added");
     }
 
     [HttpPut()]
-    public async Task<ActionResult<UserData>> UpdateById([FromBody]UserDataCDTO userDataCDTO){
+    public async Task<ActionResult<UserAddress>> UpdateById([FromBody]UserAddressCDTO userAddressCDTO){
 
         var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
         var email = emailClaim.Value;
@@ -81,17 +78,17 @@ public class UserDataController: ControllerBase{
             return BadRequest("User doesn't exist");
         }
 
-        var Data = mapper.Map<UserData>(userDataCDTO);
-        Data.UserId = userId;
+        var Address = mapper.Map<UserAddress>(userAddressCDTO);
+        Address.UserId = userId;
 
-        Data.UpdateOn = DateTime.Now;
-        context.Update(Data);
+        Address.UpdateOn = DateTime.Now;
+        context.Update(Address);
         await context.SaveChangesAsync();
-        return Ok("Data Update");
+        return Ok("Address Update");
     }
 
     [HttpPatch]
-    public async Task<ActionResult> Patch( JsonPatchDocument<UserDataPatchDTO> patchDocument){
+    public async Task<ActionResult> Patch( JsonPatchDocument<UserAddressPatchDTO> patchDocument){
         if(patchDocument == null){
             return BadRequest();
         }
@@ -101,42 +98,42 @@ public class UserDataController: ControllerBase{
         var user = await userManager.FindByEmailAsync(email);
         var userId = user.Id;
 
-        var UserDataDB = await context.UserData.FirstOrDefaultAsync(x => x.UserId == userId);
-        if (UserDataDB == null){
+        var UserAddressDB = await context.UserAddress.FirstOrDefaultAsync(x => x.UserId == userId);
+        if (UserAddressDB == null){
             return NotFound("User not found");
         }
 
-        var UserDataDTO = mapper.Map<UserDataPatchDTO>(UserDataDB);
+        var UserAddressDTO = mapper.Map<UserAddressPatchDTO>(UserAddressDB);
 
-        patchDocument.ApplyTo(UserDataDTO, ModelState);
+        patchDocument.ApplyTo(UserAddressDTO, ModelState);
 
-        var isvalid = TryValidateModel(UserDataDTO);
+        var isvalid = TryValidateModel(UserAddressDTO);
         if (!isvalid){
             return BadRequest(ModelState);
         }
 
-        mapper.Map(UserDataDTO, UserDataDB);
+        mapper.Map(UserAddressDTO, UserAddressDB);
 
         await context.SaveChangesAsync();
         return NoContent();
     }
 
     [HttpDelete()]
-    public async Task<ActionResult<UserData>> Delete(){
+    public async Task<ActionResult<UserAddress>> Delete(){
 
         var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
         var email = emailClaim.Value;
         var user = await userManager.FindByEmailAsync(email);
         var userId = user.Id;
 
-        var Data = await context.UserData.FirstOrDefaultAsync(Data => Data.UserId == userId);
-        if (Data == null)
+        var Adress = await context.UserAddress.FirstOrDefaultAsync(Adress => Adress.UserId == userId);
+        if (Adress == null)
         {
-            return BadRequest("User Data doesn't exist");
+            return BadRequest("User Address doesn't exist");
         }
 
         context.Remove(user);
         await context.SaveChangesAsync();
-        return Ok("Data Deleted");
+        return Ok("Address Deleted");
     }
 }
