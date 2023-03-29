@@ -8,17 +8,17 @@ public class AutoMapperProfiles :Profile
     public AutoMapperProfiles()
     {
         // Mapeo Brand
-        CreateMap<BrandCDTO, Brand>();
+        CreateMap<BrandCDTO, Brand>().ForMember(x => x.Image, options => options.Ignore());
         CreateMap<Brand, BrandDTO>();
         CreateMap<BrandPatchDTO, Brand>().ReverseMap();
 
         // Mapeo Category
-        CreateMap<CategoryCDTO, Category>();
+        CreateMap<CategoryCDTO, Category>().ForMember(x => x.Image, options => options.Ignore());
         CreateMap<Category, CategoryDTO>();
         CreateMap<CategoryPatchDTO, Category>().ReverseMap();
 
         // Mapeo Product
-        CreateMap<ProductCDTO, Product>();
+        CreateMap<ProductCDTO, Product>().ForMember(x => x.Image, options => options.Ignore());
         CreateMap<Product, ProductDTO>();
         CreateMap<ProductPatchDTO, Product>().ReverseMap();
 
@@ -36,8 +36,8 @@ public class AutoMapperProfiles :Profile
         CreateMap<CartItemCDTO, CartItem>();
         CreateMap<CartItem, CartItemDTO>();
         
-        //Mapeo DataUser
-        CreateMap<UserDataCDTO, UserData>();
+        //Mapeo UserData
+        CreateMap<UserDataCDTO, UserData>().ForMember(x => x.Image, options => options.Ignore());
         CreateMap<UserData, UserDataDTO>();
         CreateMap<UserDataPatchDTO, UserData>().ReverseMap();
 

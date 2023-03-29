@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Web_API_Kaab_Haak.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
+using Web_API_Kaab_Haak.Services;
 
 namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
@@ -19,11 +20,14 @@ public class UserDataController: ControllerBase{
     private readonly AplicationdbContext context;
     private readonly IMapper mapper;
     private readonly UserManager<IdentityUser> userManager;
+    private readonly IStoreFiles storeFiles;
+    private readonly string container = "UserImage";
 
-    public UserDataController(AplicationdbContext context, IMapper mapper, UserManager<IdentityUser> userManager){
+    public UserDataController(AplicationdbContext context, IMapper mapper, UserManager<IdentityUser> userManager, IStoreFiles storeFiles){
         this.context = context;
         this.mapper = mapper;
         this.userManager = userManager;
+        this.storeFiles = storeFiles;
     }
 
     [HttpGet]
@@ -42,7 +46,7 @@ public class UserDataController: ControllerBase{
 
     [HttpPost]
     // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public async Task<ActionResult<UserDataCDTO>> Post([FromBody] UserDataCDTO userDataCDTO){
+    public async Task<ActionResult<UserDataCDTO>> Post([FromForm] UserDataCDTO userDataCDTO){
 
         var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
         var email = emailClaim.Value;
@@ -58,6 +62,15 @@ public class UserDataController: ControllerBase{
 
         var userData = mapper.Map<UserData>(userDataCDTO);
 
+        if (userDataCDTO.Image != null){
+            using (var memoryStream = new MemoryStream()){
+                await userDataCDTO.Image.CopyToAsync(memoryStream);
+                var content = memoryStream.ToArray();
+                var extension = Path.GetExtension(userDataCDTO.Image.FileName);
+                userData.Image = await storeFiles.SaveFile(content, extension, container, 
+                    userDataCDTO.Image.ContentType);
+            }
+        }
         
         userData.CreateOn = DateTime.Now;
         userData.UpdateOn = DateTime.Now;
@@ -68,24 +81,31 @@ public class UserDataController: ControllerBase{
     }
 
     [HttpPut()]
-    public async Task<ActionResult<UserData>> UpdateById([FromBody]UserDataCDTO userDataCDTO){
+    public async Task<ActionResult<UserData>> UpdateById([FromForm]UserDataCDTO userDataCDTO){
 
         var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
         var email = emailClaim.Value;
         var user = await userManager.FindByEmailAsync(email);
         var userId = user.Id;
 
-        var exist = await context.UserData.AnyAsync();
-        if (!exist)
-        {
-            return BadRequest("User doesn't exist");
+        var userDB = await context.UserData.FirstOrDefaultAsync(x => x.UserId == userId);
+        if (userDB == null){
+            return NotFound();
         }
 
-        var Data = mapper.Map<UserData>(userDataCDTO);
-        Data.UserId = userId;
+        userDB = mapper.Map(userDataCDTO, userDB);
 
-        Data.UpdateOn = DateTime.Now;
-        context.Update(Data);
+        if (userDataCDTO.Image != null){
+            using (var memoryStream = new MemoryStream()){
+                await userDataCDTO.Image.CopyToAsync(memoryStream);
+                var content = memoryStream.ToArray();
+                var extension = Path.GetExtension(userDataCDTO.Image.FileName);
+                userDB.Image = await storeFiles.EditFile(content, extension, container, 
+                    userDB.Image,
+                    userDataCDTO.Image.ContentType);
+            }
+        }
+
         await context.SaveChangesAsync();
         return Ok("Data Update");
     }

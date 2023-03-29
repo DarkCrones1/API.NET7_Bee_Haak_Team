@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using Web_API_Kaab_Haak.Data;
+using Web_API_Kaab_Haak.Services;
 
 namespace Web_API_Kaab_Haak;
 public class StartUp
@@ -25,6 +26,8 @@ public class StartUp
             services.AddDbContext<AplicationdbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
             services.AddResponseCaching();
+
+            services.AddTransient<IStoreFiles, AzureFileStorage>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(option => option.TokenValidationParameters = new TokenValidationParameters{

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication;
 using Web_API_Kaab_Haak.Utilities;
 using Web_API_Kaab_Haak.Domain.Utilities;
 using Microsoft.AspNetCore.JsonPatch;
+using Web_API_Kaab_Haak.Services;
 
 namespace Web_API_Kaab_Haak.Controller;
 //Inventory/{InventoryId}
@@ -20,11 +21,14 @@ public class ProductController :ControllerBase
 {
     private readonly AplicationdbContext context;
     private readonly IMapper mapper;
+    private readonly IStoreFiles storeFiles;
+    private readonly string container = "ProductImage";
 
-    public ProductController(AplicationdbContext context, IMapper mapper)
+    public ProductController(AplicationdbContext context, IMapper mapper, IStoreFiles storeFiles)
     {
         this.context = context;
         this.mapper = mapper;
+        this.storeFiles = storeFiles;
     }
 
     [AllowAnonymous]
@@ -69,15 +73,24 @@ public class ProductController :ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult<Product>> Post([FromBody] ProductCDTO productCDTO){
+    public async Task<ActionResult<Product>> Post([FromForm] ProductCDTO productCDTO){
         var exist = await context.Product.AnyAsync(Product => Product.Name == productCDTO.Name);
-        
         if (exist)
         {
             return BadRequest("Product Exist");
         }
 
         var product = mapper.Map<Product>(productCDTO);
+
+        if (productCDTO.Image != null){
+            using (var memoryStream = new MemoryStream()){
+                await productCDTO.Image.CopyToAsync(memoryStream);
+                var content = memoryStream.ToArray();
+                var extension = Path.GetExtension(productCDTO.Image.FileName);
+                product.Image = await storeFiles.SaveFile(content, extension, container,
+                    productCDTO.Image.ContentType);
+            }
+        }
 
         product.CreateOn = DateTime.Now;
         product.UpdateOn = DateTime.Now;
@@ -88,19 +101,25 @@ public class ProductController :ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<Product>> Put(int id, [FromBody] ProductCDTO productCDTO){
-        var exist = await context.Product.AnyAsync(product => product.Id == id);
-
-        if(!exist)
-        {
-            return BadRequest("Product doesn't exist");
+    public async Task<ActionResult<Product>> Put(int id, [FromForm] ProductCDTO productCDTO){
+        
+        var productDB = await context.Product.FirstOrDefaultAsync(x => x.Id == id);
+        if (productDB == null){
+            return NotFound();
         }
 
-        var product = mapper.Map<Product>(productCDTO);
-        product.Id = id;
+        productDB = mapper.Map(productCDTO, productDB);
 
-        product.UpdateOn = DateTime.Now;
-        context.Update(product);
+        if (productCDTO.Image != null){
+            using (var memoryStream = new MemoryStream()){
+                await productCDTO.Image.CopyToAsync(memoryStream);
+                var content = memoryStream.ToArray();
+                var extension = Path.GetExtension(productCDTO.Image.FileName);
+                productDB.Image = await storeFiles.SaveFile(content, extension, container,
+                    productCDTO.Image.ContentType);
+            }
+        }
+        
         await context.SaveChangesAsync();
         return Ok("Product Updated");
     }

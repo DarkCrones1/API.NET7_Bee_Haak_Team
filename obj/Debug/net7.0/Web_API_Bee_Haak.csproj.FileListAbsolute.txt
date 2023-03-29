@@ -172,3 +172,6 @@ D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebAp
 D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\Newtonsoft.Json.dll
 D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\Azure.Storage.Blobs.dll
+D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\Azure.Storage.Common.dll
+D:\Documentos\UTM\5° Cuatri\Desarrollo Movil Multiplataforma\API_KaabHaak\WebApi_Kaab_Haak\bin\Debug\net7.0\System.IO.Hashing.dll

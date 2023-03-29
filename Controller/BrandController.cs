@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Web_API_Kaab_Haak.DTOS;
 using Microsoft.AspNetCore.JsonPatch;
+using Web_API_Kaab_Haak.Services;
 
 namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
@@ -17,10 +18,13 @@ public class BrandController :ControllerBase
 {
     private readonly AplicationdbContext context;
     private readonly IMapper mapper;
+    private readonly IStoreFiles storeFiles;
+    private readonly string container = "BrandImage";
 
-    public BrandController(AplicationdbContext context, IMapper mapper){
+    public BrandController(AplicationdbContext context, IMapper mapper, IStoreFiles storeFiles){
         this.context = context;
         this.mapper = mapper;
+        this.storeFiles = storeFiles;
     }
 
     [AllowAnonymous]
@@ -51,35 +55,53 @@ public class BrandController :ControllerBase
     }
 
     [HttpPost(Name = "Create-Brand")]
-    public async Task<ActionResult<Brand>> Post([FromBody] BrandCDTO branCDTO){
-        var exist = await context.Brand.AnyAsync(brand => brand.Name == branCDTO.Name);
+    public async Task<ActionResult<Brand>> Post([FromForm] BrandCDTO brandCDTO){
+        var exist = await context.Brand.AnyAsync(brand => brand.Name == brandCDTO.Name);
         if (exist)
         {
             return BadRequest("Brand exist");
         }
 
-        var brand = mapper.Map<Brand>(branCDTO);
+        var brand = mapper.Map<Brand>(brandCDTO);
+
+        if (brandCDTO.Image != null){
+            using (var memoryStream = new MemoryStream()){
+                await brandCDTO.Image.CopyToAsync(memoryStream);
+                var content = memoryStream.ToArray();
+                var extension = Path.GetExtension(brandCDTO.Image.FileName);
+                brand.Image = await storeFiles.SaveFile(content, extension, container,
+                    brandCDTO.Image.ContentType);
+            }
+        }
 
         brand.CreateOn = DateTime.Now;
         brand.UpdateOn = DateTime.Now;
+
         context.Add(brand);
         await context.SaveChangesAsync();
         return Ok("Brand Created");
     }
 
     [HttpPut("{id:int}", Name = "UpdateBrand")]
-    public async Task<ActionResult<Brand>> UpdateById(int id, [FromBody] BrandCDTO brandCDTO){
-        var exist = await context.Brand.AnyAsync(brand => brand.Id == id);
-        if (!exist)
-        {
-            return BadRequest("brand doesn't exist");
+    public async Task<ActionResult<Brand>> UpdateById(int id, [FromForm] BrandCDTO brandCDTO){
+        
+        var brandDB = await context.Brand.FirstOrDefaultAsync(x => x.Id == id);
+        if (brandDB == null){
+            return NotFound();
         }
 
-        var brand = mapper.Map<Brand>(brandCDTO);
-        brand.Id = id;
+        brandDB = mapper.Map(brandCDTO, brandDB);
 
-        brand.UpdateOn = DateTime.Now;
-        context.Update(brand);
+        if (brandCDTO.Image != null){
+            using (var memoryStream = new MemoryStream()){
+                await brandCDTO.Image.CopyToAsync(memoryStream);
+                var content = memoryStream.ToArray();
+                var extension = Path.GetExtension(brandCDTO.Image.FileName);
+                brandDB.Image = await storeFiles.SaveFile(content, extension, container,
+                    brandCDTO.Image.ContentType);
+            }
+        }
+
         await context.SaveChangesAsync();
         return Ok("Brand Updated");
     }

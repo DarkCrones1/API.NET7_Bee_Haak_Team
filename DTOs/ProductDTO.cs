@@ -7,6 +7,6 @@ public class ProductDTO
     public string Image {get;set;}
     public int Price {get;set;}
     public int Quantity {get;set;}
-    public BrandDTO brand {get;set;}
+    public BrandDTO Brand {get;set;}
     public CategoryDTO Category {get;set;}
 }

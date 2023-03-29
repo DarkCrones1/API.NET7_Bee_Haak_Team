@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Web_API_Kaab_Haak.Entities;
 using Microsoft.AspNetCore.JsonPatch;
+using Web_API_Kaab_Haak.Services;
 
 namespace Web_API_Kaab_Haak.Controller;
 [ApiController]
@@ -17,10 +18,13 @@ public class CategoryController :ControllerBase
 {
     private readonly AplicationdbContext context;
     private readonly IMapper mapper;
+    private readonly IStoreFiles storeFiles;
+    private readonly string container = "CategoryImage";
 
-    public CategoryController(AplicationdbContext context, IMapper mapper){
+    public CategoryController(AplicationdbContext context, IMapper mapper,IStoreFiles storeFiles ){
         this.context = context;
         this.mapper = mapper;
+        this.storeFiles = storeFiles;
     }
 
     [AllowAnonymous]
@@ -51,7 +55,7 @@ public class CategoryController :ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Category>> Post([FromBody] CategoryCDTO categoryCDTO){
+    public async Task<ActionResult<Category>> Post([FromForm] CategoryCDTO categoryCDTO){
         var exist = await context.Category.AnyAsync(category => category.Name == categoryCDTO.Name);
         if (exist)
         {
@@ -60,26 +64,44 @@ public class CategoryController :ControllerBase
         
         var category = mapper.Map<Category>(categoryCDTO);
 
+        if (categoryCDTO.Image != null){
+            using (var memoryStream = new MemoryStream()){
+                await categoryCDTO.Image.CopyToAsync(memoryStream);
+                var content = memoryStream.ToArray();
+                var extension = Path.GetExtension(categoryCDTO.Image.FileName);
+                category.Image = await storeFiles.SaveFile(content, extension, container,
+                    categoryCDTO.Image.ContentType);
+            }
+        }
+
         category.CreateOn = DateTime.Now;
         category.UpdateOn = DateTime.Now;
+
         context.Add(category);
         await context.SaveChangesAsync();
         return Ok("Category Created");
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<Category>> UpdateById(int id, [FromBody] CategoryCDTO categoryCDTO){
-        var exist = await context.Category.AnyAsync(category => category.Id == id);
-        if (!exist)
-        {
-            return BadRequest("Category doesn't exist");
+    public async Task<ActionResult<Category>> UpdateById(int id, [FromForm] CategoryCDTO categoryCDTO){
+        
+        var categoryDB = await context.Category.FirstOrDefaultAsync(x => x.Id == id);
+        if( categoryDB == null){
+            return NotFound();
         }
 
-        var category = mapper.Map<Category>(categoryCDTO);
-        category.Id = id;
+        categoryDB = mapper.Map(categoryCDTO, categoryDB);
 
-        category.UpdateOn = DateTime.Now;
-        context.Update(category);
+        if (categoryCDTO.Image != null){
+            using (var memoryStream = new MemoryStream()){
+                await categoryCDTO.Image.CopyToAsync(memoryStream);
+                var content = memoryStream.ToArray();
+                var extension = Path.GetExtension(categoryCDTO.Image.FileName);
+                categoryDB.Image = await storeFiles.SaveFile(content, extension, container,
+                    categoryCDTO.Image.ContentType);
+            }
+        }
+
         await context.SaveChangesAsync();
         return Ok("Category Update");
     }
