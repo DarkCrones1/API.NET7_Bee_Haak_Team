@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documentos\\UTM\\5° Cuatri\\Desarrollo Movil Multiplataforma\\API_KaabHaak\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj": {}
+    "E:\\Archivos\\Tareas Universidad UTM\\DSM 5° Cuatrimestre\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj": {}
   },
   "projects": {
-    "D:\\Documentos\\UTM\\5° Cuatri\\Desarrollo Movil Multiplataforma\\API_KaabHaak\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj": {
+    "E:\\Archivos\\Tareas Universidad UTM\\DSM 5° Cuatrimestre\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documentos\\UTM\\5° Cuatri\\Desarrollo Movil Multiplataforma\\API_KaabHaak\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj",
+        "projectUniqueName": "E:\\Archivos\\Tareas Universidad UTM\\DSM 5° Cuatrimestre\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj",
         "projectName": "Web_API_Bee_Haak",
-        "projectPath": "D:\\Documentos\\UTM\\5° Cuatri\\Desarrollo Movil Multiplataforma\\API_KaabHaak\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj",
-        "packagesPath": "C:\\Users\\ivang\\.nuget\\packages\\",
-        "outputPath": "D:\\Documentos\\UTM\\5° Cuatri\\Desarrollo Movil Multiplataforma\\API_KaabHaak\\WebApi_Kaab_Haak\\obj\\",
+        "projectPath": "E:\\Archivos\\Tareas Universidad UTM\\DSM 5° Cuatrimestre\\WebApi_Kaab_Haak\\Web_API_Bee_Haak.csproj",
+        "packagesPath": "C:\\Users\\Iván Garcia\\.nuget\\packages\\",
+        "outputPath": "E:\\Archivos\\Tareas Universidad UTM\\DSM 5° Cuatrimestre\\WebApi_Kaab_Haak\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\ivang\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Iván Garcia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -48,11 +54,11 @@
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[7.0.4, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[7.0.4, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
@@ -64,27 +70,31 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[7.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[7.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[7.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[7.0.4, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
+            },
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [
@@ -106,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

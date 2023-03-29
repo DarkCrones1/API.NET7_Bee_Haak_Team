@@ -21,7 +21,7 @@ public class UserDataController: ControllerBase{
     private readonly IMapper mapper;
     private readonly UserManager<IdentityUser> userManager;
     private readonly IStoreFiles storeFiles;
-    private readonly string container = "UserImage";
+    private readonly string container = "userimage";
 
     public UserDataController(AplicationdbContext context, IMapper mapper, UserManager<IdentityUser> userManager, IStoreFiles storeFiles){
         this.context = context;

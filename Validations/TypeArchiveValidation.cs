@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Web_API_Kaab_Haak.Validations;
-public class TypeArchiveValidation :ValidationAttribute
+public class TypeArchiveValidation: ValidationAttribute
 {
     private readonly string[] validTypes;
 
@@ -14,7 +14,7 @@ public class TypeArchiveValidation :ValidationAttribute
     {
         if (groupTypeArchive == GroupTypeArchive.Image)
         {
-            validTypes = new string[] {"image/jpeg", "image/jpg", "image/png", "image/gif"};
+            validTypes = new string[] { "image/jpeg", "image/png", "image/gif" };
         }
     }
 

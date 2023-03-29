@@ -19,7 +19,7 @@ public class CategoryController :ControllerBase
     private readonly AplicationdbContext context;
     private readonly IMapper mapper;
     private readonly IStoreFiles storeFiles;
-    private readonly string container = "CategoryImage";
+    private readonly string container = "categoryimage";
 
     public CategoryController(AplicationdbContext context, IMapper mapper,IStoreFiles storeFiles ){
         this.context = context;

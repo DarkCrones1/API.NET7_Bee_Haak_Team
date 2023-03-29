@@ -22,7 +22,7 @@ public class ProductController :ControllerBase
     private readonly AplicationdbContext context;
     private readonly IMapper mapper;
     private readonly IStoreFiles storeFiles;
-    private readonly string container = "ProductImage";
+    private readonly string container = "productimage";
 
     public ProductController(AplicationdbContext context, IMapper mapper, IStoreFiles storeFiles)
     {

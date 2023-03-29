@@ -19,7 +19,7 @@ public class BrandController :ControllerBase
     private readonly AplicationdbContext context;
     private readonly IMapper mapper;
     private readonly IStoreFiles storeFiles;
-    private readonly string container = "BrandImage";
+    private readonly string container = "brandimage";
 
     public BrandController(AplicationdbContext context, IMapper mapper, IStoreFiles storeFiles){
         this.context = context;
